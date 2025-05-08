@@ -33,7 +33,7 @@ Always end with a grounding sentence, mantra, or soft invitation.
 """
 
     response = openai.ChatCompletion.create(
-        model="gpt-4",
+        model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are Moe."},
             {"role": "user", "content": prompt}
