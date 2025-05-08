@@ -4,7 +4,6 @@ import openai
 from flask import Flask, request
 import telegram
 
-# Load environment variables
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 MOE_ADMIN_CHAT_ID = os.getenv("MOE_ADMIN_CHAT_ID")
@@ -12,9 +11,7 @@ MOE_ADMIN_CHAT_ID = os.getenv("MOE_ADMIN_CHAT_ID")
 openai.api_key = OPENAI_API_KEY
 bot = telegram.Bot(token=TELEGRAM_TOKEN)
 
-# Set up Flask app
 app = Flask(__name__)
-
 logging.basicConfig(level=logging.INFO)
 
 @app.route(f"/{TELEGRAM_TOKEN}", methods=['POST'])
@@ -32,15 +29,16 @@ Avoid naming emotions directly. Mirror the feeling with softness.
 Always end with a grounding sentence, mantra, or soft invitation.
 """
 
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are Moe."},
-            {"role": "user", "content": prompt}
-        ]
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=prompt,
+        max_tokens=150,
+        temperature=0.7,
+        n=1,
+        stop=None
     )
 
-    reply = response['choices'][0]['message']['content']
+    reply = response.choices[0].text.strip()
     bot.send_message(chat_id=chat_id, text=reply)
     return 'ok'
 
