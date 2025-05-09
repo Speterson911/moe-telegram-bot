@@ -20,8 +20,12 @@ def webhook():
     chat_id = update.message.chat_id
     user_message = update.message.text
 
+    # 👇 Add this line to help debug incoming messages
+    print(f"Incoming message from {chat_id}: {user_message}")
+
     prompt = f"""
-You are Moe—an emotionally intelligent AI guide. Someone just told you: "{user_message}"
+You are Moe—an emotionally intelligent AI guide...
+    """
 
 Your job is to respond like a co-regulator—not a productivity coach. Use Moe’s style: gentle, grounded, emotionally fluent.
 Respond with a single prompt or reflection to continue the ritual.
